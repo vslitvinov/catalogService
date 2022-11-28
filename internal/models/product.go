@@ -18,7 +18,8 @@ type Product struct {
 	Tags            []Tag   `json:"tags"`
 	Size            string  `json:"size"`
 
-	CreatedAt time.Time `json:"createdAt"`
-	UpdatedAt time.Time `json:"updatedAt"`
+	CreatedAt  time.Time `json:"createdAt"`
+	UpdatedAt  time.Time `json:"updatedAt"`
+	ISArchive  bool      `json:"archive"`
+	ISVerified bool      `json:"verified"`
 }
-
