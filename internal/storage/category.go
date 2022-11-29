@@ -3,6 +3,7 @@ package storage
 import (
 	"context"
 	"fmt"
+	"log"
 	"sync"
 
 	"github.com/jackc/pgx/v4/pgxpool"
@@ -30,13 +31,25 @@ func NewCategoryStorage(db *pgxpool.Pool) *Category {
 		cache: sync.Map{},
 	}
 
-	c.Start()
+	go c.Start()
 
 	return &c
 }
 
 func (c *Category) Start() {
 	// load category db
+
+	mcs, err := c.db.GetAll(context.TODO())
+	if err != nil {
+		log.Println("storage.category.cache.start")
+	}
+
+	for _,v := range mcs {
+		c.cache.Store(v.ID,v)
+	}
+
+	log.Println("Storage Category init")
+
 }
 
 func (c *Category) Create(ctx context.Context, title, parentID string) (string, error) {
